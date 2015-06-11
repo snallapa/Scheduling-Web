@@ -1,0 +1,74 @@
+body {
+	max-height: 100%;
+	overflow: auto;
+}
+
+.residentsList {
+	width: 22%;
+	height: 95%;
+	max-height: 95%;
+	padding-top: 0px;
+	overflow-y: auto;
+	position: absolute;
+	left: 15px;
+	top: 80px;
+	margin-bottom: 20px
+}
+
+.residentsScheduling {
+	width: 85%;
+	height: 95%;
+	padding-top: 80px;
+	position: absolute;
+	padding-left: 25%;
+	top: 10px;
+}
+
+.times {
+	height: 75px;
+}
+
+td {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.th-fix {
+	font-weight: normal;
+}
+
+.addUserLink {
+	color: black;
+	cursor: pointer;
+}
+
+.addUserLink:HOVER {
+	color: black;
+}
+
+.horizontalFix {
+	display: table-cell;
+	padding-left: 4px;
+}
+
+.displayText {
+	display: table;
+}
+
+#imagePreview {
+	width: 180px;
+	height: 180px;
+	background-position: center center;
+	background-size: cover;
+	-webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+	display: inline-block;
+}
+
+.imagePreview {
+	width: 180px;
+	height: 180px;
+	background-position: center center;
+	background-size: cover;
+	-webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+	display: inline-block;
+}
