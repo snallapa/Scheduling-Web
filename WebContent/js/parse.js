@@ -4,11 +4,13 @@
  */
 Parse.initialize("2LtDjadP74Th3XfebZvQjEtjvK9wqkKNsG8XOpbq",
 	"x2LKddxBl61XGECpX2v1LbIpst21uNvrFN527rPN");
+var Residents = Parse.Object.extend("Residents");
 var residents = [];
+//please do not change (supposed to be final)
+var LOCAL_STORAGE_STRING = "list_item_place";
 $(document).ready(
 	function () {
-		var Residents = Parse.Object.extend("Residents");
-		var timer = 0;
+		var timer = localStorage.getItem(LOCAL_STORAGE_STRING);
 		$(".formLogIn").submit(
 			function () {
 				var username = $(".usernameForm").val();
@@ -39,101 +41,12 @@ $(document).ready(
 						'<a href="#" class="list-group-item itemData">'
 						+ residents[i].get("name") + '</a>');
 				}
+				$("#residentChosen").trigger("click");
 			}
 			$(".itemData").click(
 				function (event) {
-					$(".itemData").removeClass("active");
-					$(".itemData").removeAttr("id");
-					$(event.target).addClass("active");
-					$(event.target).attr("id", "residentChosen");
 					timer = $(this).index();
-					var name = $(event.target).text();
-					var MyRows = $("#schedule").find('tbody')
-						.find('tr');
-					var query = new Parse.Query(Residents);
-					var schedule;
-					query.equalTo("name", name);
-
-					query.first({
-						success: function (result) {
-							schedule = result.get("schedule");
-							if (schedule !== undefined) {
-								$(".clearable").text("");
-								var monday = schedule.monday;
-								$(MyRows[0]).find('td:eq(1)').html(
-									monday.event1.name);
-								$(MyRows[1]).find('td:eq(1)').html(
-									monday.event2.name);
-								$(MyRows[2]).find('td:eq(1)').html(
-									monday.event3.name);
-								$(MyRows[3]).find('td:eq(1)').html(
-									monday.event4.name);
-								$(MyRows[4]).find('td:eq(1)').html(
-									monday.event5.name);
-								$(MyRows[5]).find('td:eq(1)').html(
-									monday.event6.name);
-								var tuesday = schedule.tuesday;
-								$(MyRows[0]).find('td:eq(2)').html(
-									tuesday.event1.name);
-								$(MyRows[1]).find('td:eq(2)').html(
-									tuesday.event2.name);
-								$(MyRows[2]).find('td:eq(2)').html(
-									tuesday.event3.name);
-								$(MyRows[3]).find('td:eq(2)').html(
-									tuesday.event4.name);
-								$(MyRows[4]).find('td:eq(2)').html(
-									tuesday.event5.name);
-								$(MyRows[5]).find('td:eq(2)').html(
-									tuesday.event6.name);
-								var wednesday = schedule.wednesday;
-								$(MyRows[0]).find('td:eq(3)').html(
-									wednesday.event1.name);
-								$(MyRows[1]).find('td:eq(3)').html(
-									wednesday.event2.name);
-								$(MyRows[2]).find('td:eq(3)').html(
-									wednesday.event3.name);
-								$(MyRows[3]).find('td:eq(3)').html(
-									wednesday.event4.name);
-								$(MyRows[4]).find('td:eq(3)').html(
-									wednesday.event5.name);
-								$(MyRows[5]).find('td:eq(3)').html(
-									wednesday.event6.name);
-								var thursday = schedule.thursday;
-								$(MyRows[0]).find('td:eq(4)').html(
-									thursday.event1.name);
-								$(MyRows[1]).find('td:eq(4)').html(
-									thursday.event2.name);
-								$(MyRows[2]).find('td:eq(4)').html(
-									thursday.event3.name);
-								$(MyRows[3]).find('td:eq(4)').html(
-									thursday.event4.name);
-								$(MyRows[4]).find('td:eq(4)').html(
-									thursday.event5.name);
-								$(MyRows[5]).find('td:eq(4)').html(
-									thursday.event6.name);
-								var friday = schedule.friday;
-								$(MyRows[0]).find('td:eq(5)').html(
-									friday.event1.name);
-								$(MyRows[1]).find('td:eq(5)').html(
-									friday.event2.name);
-								$(MyRows[2]).find('td:eq(5)').html(
-									friday.event3.name);
-								$(MyRows[3]).find('td:eq(5)').html(
-									friday.event4.name);
-								$(MyRows[4]).find('td:eq(5)').html(
-									friday.event5.name);
-								$(MyRows[5]).find('td:eq(5)').html(
-									friday.event6.name);
-							} else {
-								$(".clearable").text("");
-							}
-						},
-						error: function (object, error) {
-							alert("something went wrong"
-								+ error.message);
-						}
-					});
-
+					loadSchedule(event);
 				});
 			$("#residentChosen").trigger("click");
 		}
@@ -289,28 +202,20 @@ $(document).ready(
 			else {
 
 				newName = newName.substring(0, 1).toUpperCase() + newName.substring(1, newName.length);
+				var editResident = residents[timer];
+				editResident.set("name", newName);
+				editResident.set("color", newColor.toLowerCase());
+				editResident.set("picture", parseFile);
+				editResident.save();
 				var query = new Parse.Query(Residents);
-				query.equalTo("name", residentName);
+				query.ascending("name");
 				query.first({
-					success: function (result) {
-						result.set("name", newName);
-						result.set("color", newColor.toLowerCase());
-						result.set("picture", parseFile);
-						result.save();
-						$('#editModal').modal('hide')
-						var query2 = new Parse.Query(Residents);
-						query2.ascending("name");
-						query2.find({
-							success: function (results) {
-								for (var i = 0; i < results.length; i++) {
+					success: function (results) {
+						for (var i = 0; i < results.length; i++) {
 									residents[i] = results[i];
 								}
 								updateList(residents);
-							},
-							error: function (error) {
-
-							}
-						});
+						$('#editModal').modal('hide')
 					},
 					error: function (object, error) {
 						$(".residentNotEdited").slideDown().delay(2000)
@@ -319,28 +224,104 @@ $(document).ready(
 				});
 			}
 		});
-
-		window.setInterval(function () {
-			var currentUser = Parse.User.current();
-			if (!currentUser) {
-				window.location = "index.html";
-			}
-			else {
-				var query4 = new Parse.Query(Residents);
-				query4.ascending("name");
-				query4.find({
-					success: function (results) {
-						for (var i = 0; i < results.length; i++) {
-							residents[i] = results[i];
-						}
-						updateList(residents);
-					},
-					error: function (error) {
-
-					}
-				});
-			}
-
-		}, 300000);
+		$(window).unload(function () {
+			localStorage.setItem(LOCAL_STORAGE_STRING, timer.toString());
+			return "Bye now!";
+		});
 
 	});
+
+
+function loadSchedule(clickEvent) {
+	$(".itemData").removeClass("active");
+	$(".itemData").removeAttr("id");
+	$(clickEvent.target).addClass("active");
+	$(clickEvent.target).attr("id", "residentChosen");
+	var name = $(clickEvent.target).text();
+	var MyRows = $("#schedule").find('tbody')
+		.find('tr');
+	var query = new Parse.Query(Residents);
+	var schedule;
+	query.equalTo("name", name);
+
+	query.first({
+		success: function (result) {
+			schedule = result.get("schedule");
+			if (schedule !== undefined) {
+				$(".clearable").text("");
+				var monday = schedule.monday;
+				$(MyRows[0]).find('td:eq(1)').html(
+					monday.event1.name);
+				$(MyRows[1]).find('td:eq(1)').html(
+					monday.event2.name);
+				$(MyRows[2]).find('td:eq(1)').html(
+					monday.event3.name);
+				$(MyRows[3]).find('td:eq(1)').html(
+					monday.event4.name);
+				$(MyRows[4]).find('td:eq(1)').html(
+					monday.event5.name);
+				$(MyRows[5]).find('td:eq(1)').html(
+					monday.event6.name);
+				var tuesday = schedule.tuesday;
+				$(MyRows[0]).find('td:eq(2)').html(
+					tuesday.event1.name);
+				$(MyRows[1]).find('td:eq(2)').html(
+					tuesday.event2.name);
+				$(MyRows[2]).find('td:eq(2)').html(
+					tuesday.event3.name);
+				$(MyRows[3]).find('td:eq(2)').html(
+					tuesday.event4.name);
+				$(MyRows[4]).find('td:eq(2)').html(
+					tuesday.event5.name);
+				$(MyRows[5]).find('td:eq(2)').html(
+					tuesday.event6.name);
+				var wednesday = schedule.wednesday;
+				$(MyRows[0]).find('td:eq(3)').html(
+					wednesday.event1.name);
+				$(MyRows[1]).find('td:eq(3)').html(
+					wednesday.event2.name);
+				$(MyRows[2]).find('td:eq(3)').html(
+					wednesday.event3.name);
+				$(MyRows[3]).find('td:eq(3)').html(
+					wednesday.event4.name);
+				$(MyRows[4]).find('td:eq(3)').html(
+					wednesday.event5.name);
+				$(MyRows[5]).find('td:eq(3)').html(
+					wednesday.event6.name);
+				var thursday = schedule.thursday;
+				$(MyRows[0]).find('td:eq(4)').html(
+					thursday.event1.name);
+				$(MyRows[1]).find('td:eq(4)').html(
+					thursday.event2.name);
+				$(MyRows[2]).find('td:eq(4)').html(
+					thursday.event3.name);
+				$(MyRows[3]).find('td:eq(4)').html(
+					thursday.event4.name);
+				$(MyRows[4]).find('td:eq(4)').html(
+					thursday.event5.name);
+				$(MyRows[5]).find('td:eq(4)').html(
+					thursday.event6.name);
+				var friday = schedule.friday;
+				$(MyRows[0]).find('td:eq(5)').html(
+					friday.event1.name);
+				$(MyRows[1]).find('td:eq(5)').html(
+					friday.event2.name);
+				$(MyRows[2]).find('td:eq(5)').html(
+					friday.event3.name);
+				$(MyRows[3]).find('td:eq(5)').html(
+					friday.event4.name);
+				$(MyRows[4]).find('td:eq(5)').html(
+					friday.event5.name);
+				$(MyRows[5]).find('td:eq(5)').html(
+					friday.event6.name);
+			} else {
+				$(".clearable").text("");
+			}
+		},
+		error: function (object, error) {
+			alert("something went wrong"
+				+ error.message);
+		}
+	});
+
+}
