@@ -18,7 +18,8 @@ $(document).ready(
 
 				Parse.User.logIn(username, password, {
 					success: function (user) {
-						window.location = "documents.html";
+						console.log(user);
+						window.location.href = "documents.html";
 
 					},
 					error: function (user, error) {
@@ -69,7 +70,6 @@ $(document).ready(
 			var fileUploadControl = $("#contactPicture")[0];
 			var files = !!this.files ? this.files : [];
 			if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
-		 
 			if (/^image/.test(files[0].type)) { // only image file
 				var reader = new FileReader(); // instance of the FileReader
 				reader.readAsDataURL(files[0]); // read the local file
@@ -124,7 +124,7 @@ $(document).ready(
 				resident.set("name", name);
 				resident.set("picture", parseFile);
 				resident.save(null, {
-					success: function (gameScore) {
+					success: function (result) {
 						$('#myModal').modal('hide')
 						query.find({
 							success: function (results) {
@@ -148,7 +148,6 @@ $(document).ready(
 
 		$(".clearModalButton").click(function () {
 			$("#name").val("");
-			$('input[name="optionsRadios"]').prop("checked", false);
 			$("#contactPicture").val("");
 			$("#imagePreview").css("background-image", "url('img/contactPicture.jpg')");
 

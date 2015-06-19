@@ -29,9 +29,10 @@ $(document).ready(
 		$(".alert-success").slideUp()
 		$(".alert-danger").slideUp();
 		var currentUser = Parse.User.current();
-		if (!currentUser) {
-
-			window.location = "index.html";
+		console.log(currentUser);
+		if(!currentUser) {
+			console.log(currentUser);
+			window.location.href = "index.html";
 		}
 		$(".clearSchedule").click(function () {
 			$(".clearable").text("");
