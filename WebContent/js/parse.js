@@ -115,15 +115,13 @@ $(document).ready(
 		});
 		$(".userButton").click(function () {
 			var name = $("#name").val();
-			var color = $('input[name="optionsRadios"]:checked').val();
-			if (name === "" || color === undefined) {
+			if (name === "") {
 				$(".residentNotAdded").slideDown().delay(3000)
 					.slideUp();
 			} else {
 				var resident = new Residents();
 				name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length);
 				resident.set("name", name);
-				resident.set("color", color.toLowerCase());
 				resident.set("picture", parseFile);
 				resident.save(null, {
 					success: function (gameScore) {
@@ -140,7 +138,7 @@ $(document).ready(
 							}
 						});
 					},
-					error: function (gameScore, error) {
+					error: function (result, error) {
 						$(".residentNotAdded").slideDown().delay(3000)
 							.slideUp();
 					}
@@ -162,21 +160,6 @@ $(document).ready(
 			query.first({
 				success: function (result) {
 					$("#newName").val(residentName);
-					var residentColor = result.get("color");
-					switch (residentColor) {
-						case "red":
-							$("#newoptionsRadios1").prop("checked", true)
-							break;
-						case "blue":
-							$("#newoptionsRadios2").prop("checked", true)
-							break;
-						case "green":
-							$("#newoptionsRadios3").prop("checked", true)
-							break;
-						case "yellow":
-							$("#newoptionsRadios4").prop("checked", true)
-							break;
-					}
 					var contactPhoto = result.get("picture");
 					if (contactPhoto === undefined) {
 						$("#newimagePreview").css("background-image", "url('img/contactPicture.jpg')");
@@ -194,17 +177,14 @@ $(document).ready(
 		$(".editUserButton").click(function () {
 			var residentName = $("#residentChosen").text();
 			var newName = $("#newName").val();
-			var newColor = $('input[name="newoptionsRadios"]:checked').val();
-			if (newName === "" || newColor === undefined) {
+			if (newName === "") {
 				$(".residentNotEdited").slideDown().delay(3000)
 					.slideUp();
 			}
 			else {
-
 				newName = newName.substring(0, 1).toUpperCase() + newName.substring(1, newName.length);
 				var editResident = residents[timer];
 				editResident.set("name", newName);
-				editResident.set("color", newColor.toLowerCase());
 				editResident.set("picture", parseFile);
 				editResident.save();
 				var query = new Parse.Query(Residents);
