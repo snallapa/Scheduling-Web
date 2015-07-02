@@ -52,7 +52,11 @@ $(document).ready(
 				}
 		});
 		
-
+		$(".signOutForm").submit(function () {
+			Parse.User.logOut();
+			window.location = "index.html";
+			return false;
+		});
 	});
 	
 	function generateClassRoster(residents) {
