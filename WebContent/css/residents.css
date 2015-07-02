@@ -72,3 +72,47 @@ td {
 	-webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
 	display: inline-block;
 }
+
+.clearable {
+	width:25%;
+}
+
+.list-item-inline {
+	color: black;
+	display: table-cell;
+	vertical-align: middle;
+}
+.active > .list-item-inline {
+	color: white;
+}
+
+.itemData {
+	width: 100%;
+	overflow: hidden;
+	display: table;
+	
+}
+.editResident {
+	float: right;
+	visibility: hidden;
+}
+.removeResident {
+	float: right;
+	vertical-align: middle;
+	visibility: hidden;
+}
+
+.active > .editResident, .active > .removeResident {
+	visibility: visible;
+	
+}
+.residentName {
+	text-align: center;
+	float: left;
+	vertical-align: middle;
+}
+
+
+
+
+

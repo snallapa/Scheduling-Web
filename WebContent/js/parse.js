@@ -1,7 +1,7 @@
 /// <reference path="../../typings/jquery/jquery.d.ts"/>
 /**
- * 
- */
+*
+*/
 Parse.initialize("2LtDjadP74Th3XfebZvQjEtjvK9wqkKNsG8XOpbq",
 	"x2LKddxBl61XGECpX2v1LbIpst21uNvrFN527rPN");
 var Residents = Parse.Object.extend("Residents");
@@ -29,8 +29,7 @@ $(document).ready(
 
 					},
 					error: function (user, error) {
-						alert("Oh no! There must have been a mistake "
-							+ "error: " + error.message);
+						alert("Oh no! There must have been a mistake " + "error: " + error.message);
 					}
 				});
 				return false;
@@ -39,24 +38,30 @@ $(document).ready(
 			$(".itemData").remove();
 			for (var i = 0; i < residents.length; i++) {
 				if (i == timer) {
-					$(".list-group").append(
-						'<a href="#" id="residentChosen" class="list-group-item active itemData">'
-						+ residents[i].get("name") + '</a>');
+					$(".list-group").append('<a href="#" id="residentChosen" class="list-group-item active itemData"></a>');
+					$(".itemData:eq(" + i + ")").append('<a href="#" class="editResident list-item-inline"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>');
+					$(".itemData:eq(" + i + ")").append('<p class="residentName list-item-inline residentName">' + residents[i].get("name") + '</p>');
+					$(".itemData:eq(" + i + ")").append('<a href="#" class="removeResident list-item-inline "><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>');
 				}
 				else {
-					$(".list-group").append(
-						'<a href="#" class="list-group-item itemData">'
-						+ residents[i].get("name") + '</a>');
+					$(".list-group").append('<a href="#"  class="list-group-item itemData"></a>');
+					$(".itemData:eq(" + i + ")").append('<a href="#" class="editResident list-item-inline"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>');
+					$(".itemData:eq(" + i + ")").append('<p class="list-item-inline residentName">' + residents[i].get("name") + '</p>');
+					$(".itemData:eq(" + i + ")").append('<a href="#" class="removeResident list-item-inline"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>');
 				}
-				$("#residentChosen").trigger("click");
 			}
 			$(".itemData").click(
 				function (event) {
+					$(".itemData:eq(" + timer + ")").removeClass("active");
+					$(".itemData:eq(" + timer + ")").removeAttr('id');
 					timer = $(this).index();
+					$(".itemData:eq(" + timer + ")").addClass("active");
+					$(".itemData:eq(" + timer + ")").attr("id", "residentChosen");
 					loadSchedule(event);
 				});
+				
 			$("#residentChosen").trigger("click");
-			//only scroll if that person is not 'visible' 
+			//only scroll if that person is not 'visible'
 			if (timer > LIST_THRESHOLD_VALUE) {
 				$('.residentsList').animate({
 					scrollTop: $("#residentChosen").position().top
@@ -85,7 +90,7 @@ $(document).ready(
 			if (/^image/.test(files[0].type)) { // only image file
 				var reader = new FileReader(); // instance of the FileReader
 				reader.readAsDataURL(files[0]); // read the local file
-		 
+
 				reader.onloadend = function () { // set image data as background of div
 					$("#imagePreview").css("background-image", "url(" + this.result + ")");
 				}
@@ -105,11 +110,11 @@ $(document).ready(
 			var fileUploadControl = $("#newcontactPicture")[0];
 			var files = !!this.files ? this.files : [];
 			if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
-		 
+
 			if (/^image/.test(files[0].type)) { // only image file
 				var reader = new FileReader(); // instance of the FileReader
 				reader.readAsDataURL(files[0]); // read the local file
-		 
+
 				reader.onloadend = function () { // set image data as background of div
 					$("#newimagePreview").css("background-image", "url(" + this.result + ")");
 				}
@@ -302,7 +307,7 @@ function loadSchedule(clickEvent) {
 	query.equalTo("name", name);
 
 	query.first({
-		success: function (result) {
+								success: function (result) {
 			schedule = result.get("schedule");
 			if (schedule !== undefined) {
 				$(".clearable").text("");
@@ -319,15 +324,15 @@ function loadSchedule(clickEvent) {
 					monday.event5.name);
 				$(MyRows[5]).find('td:eq(1)').html(
 					monday.event6.name);
-				var tuesday = schedule.tuesday;
-				$(MyRows[0]).find('td:eq(2)').html(
+																var tuesday = schedule.tuesday;
+																$(MyRows[0]).find('td:eq(2)').html(
 					tuesday.event1.name);
 				$(MyRows[1]).find('td:eq(2)').html(
 					tuesday.event2.name);
 				$(MyRows[2]).find('td:eq(2)').html(
 					tuesday.event3.name);
 				$(MyRows[3]).find('td:eq(2)').html(
-					tuesday.event4.name);
+																				tuesday.event4.name);
 				$(MyRows[4]).find('td:eq(2)').html(
 					tuesday.event5.name);
 				$(MyRows[5]).find('td:eq(2)').html(
@@ -388,233 +393,233 @@ function createSchedule(tableRows) {
 		startTime: "9:30",
 		endTime: "10:30",
 		name: $(tableRows[0]).find('td:eq(1)').html()
-				};
-				var event2 = {
+	};
+	var event2 = {
 		day: "Monday",
 		startTime: "10:30",
 		endTime: "11:30",
 		name: $(tableRows[1]).find('td:eq(1)').html()
-				};
-				var event3 = {
+	};
+	var event3 = {
 		day: "Monday",
 		startTime: "11:30",
 		endTime: "12:00",
 		name: $(tableRows[2]).find('td:eq(1)').html()
-				};
-				var event4 = {
+	};
+	var event4 = {
 		day: "Monday",
 		startTime: "12:00",
 		endTime: "12:30",
 		name: $(tableRows[3]).find('td:eq(1)').html()
-				};
-				var event5 = {
+	};
+	var event5 = {
 		day: "Monday",
 		startTime: "12:30",
 		endTime: "1:30",
 		name: $(tableRows[4]).find('td:eq(1)').html()
-				};
-				var event6 = {
+	};
+	var event6 = {
 		day: "Monday",
 		startTime: "1:30",
 		endTime: "2:30",
 		name: $(tableRows[5]).find('td:eq(1)').html()
-				};
-				var mondayEvents = {
+	};
+	var mondayEvents = {
 		event1: event1,
 		event2: event2,
 		event3: event3,
 		event4: event4,
 		event5: event5,
 		event6: event6
-				};
-				var event7 = {
+	};
+	var event7 = {
 		day: "Tuesday",
 		startTime: "9:30",
 		endTime: "10:30",
 		name: $(tableRows[0]).find('td:eq(2)').html()
-				};
-				var event8 = {
+	};
+	var event8 = {
 		day: "Tuesday",
 		startTime: "10:30",
 		endTime: "11:30",
 		name: $(tableRows[1]).find('td:eq(2)').html()
-				};
-				var event9 = {
+	};
+	var event9 = {
 		day: "Tuesday",
 		startTime: "11:30",
 		endTime: "12:00",
 		name: $(tableRows[2]).find('td:eq(2)').html()
-				};
-				var event10 = {
+	};
+	var event10 = {
 		day: "Tuesday",
 		startTime: "12:00",
 		endTime: "12:30",
 		name: $(tableRows[3]).find('td:eq(2)').html()
-				};
-				var event11 = {
+	};
+	var event11 = {
 		day: "Tuesday",
 		startTime: "12:30",
 		endTime: "1:30",
 		name: $(tableRows[4]).find('td:eq(2)').html()
-				};
-				var event12 = {
+	};
+	var event12 = {
 		day: "Tuesday",
 		startTime: "1:30",
 		endTime: "2:30",
 		name: $(tableRows[5]).find('td:eq(2)').html()
-				};
-				var tuesdayEvents = {
+	};
+	var tuesdayEvents = {
 		event1: event7,
 		event2: event8,
 		event3: event9,
 		event4: event10,
 		event5: event11,
 		event6: event12
-				};
-				var event13 = {
+	};
+	var event13 = {
 		day: "Wednesday",
 		startTime: "9:30",
 		endTime: "10:30",
 		name: $(tableRows[0]).find('td:eq(3)').html()
-				};
-				var event14 = {
+	};
+	var event14 = {
 		day: "Wednesday",
 		startTime: "10:30",
 		endTime: "11:30",
 		name: $(tableRows[1]).find('td:eq(3)').html()
-				};
-				var event15 = {
+	};
+	var event15 = {
 		day: "Wednesday",
 		startTime: "11:30",
 		endTime: "12:00",
 		name: $(tableRows[2]).find('td:eq(3)').html()
-				};
-				var event16 = {
+	};
+	var event16 = {
 		day: "Wednesday",
 		startTime: "12:00",
 		endTime: "12:30",
 		name: $(tableRows[3]).find('td:eq(3)').html()
-				};
-				var event17 = {
+	};
+	var event17 = {
 		day: "Wednesday",
 		startTime: "12:30",
 		endTime: "1:30",
 		name: $(tableRows[4]).find('td:eq(3)').html()
-				};
-				var event18 = {
+	};
+	var event18 = {
 		day: "Wednesday",
 		startTime: "1:30",
 		endTime: "2:30",
 		name: $(tableRows[5]).find('td:eq(3)').html()
-				};
-				var wednesdayEvents = {
+	};
+	var wednesdayEvents = {
 		event1: event13,
 		event2: event14,
 		event3: event15,
 		event4: event16,
 		event5: event17,
 		event6: event18
-				};
-				var event19 = {
+	};
+	var event19 = {
 		day: "Thursday",
 		startTime: "9:30",
 		endTime: "10:30",
 		name: $(tableRows[0]).find('td:eq(4)').html()
-				};
-				var event20 = {
+	};
+	var event20 = {
 		day: "Thursday",
 		startTime: "10:30",
 		endTime: "11:30",
 		name: $(tableRows[1]).find('td:eq(4)').html()
-				};
-				var event21 = {
+	};
+	var event21 = {
 		day: "Thursday",
 		startTime: "11:30",
 		endTime: "12:00",
 		name: $(tableRows[2]).find('td:eq(4)').html()
-				};
-				var event22 = {
+	};
+	var event22 = {
 		day: "Thursday",
 		startTime: "12:00",
 		endTime: "12:30",
 		name: $(tableRows[3]).find('td:eq(4)').html()
-				};
-				var event23 = {
+	};
+	var event23 = {
 		day: "Thursday",
 		startTime: "12:30",
 		endTime: "1:30",
 		name: $(tableRows[4]).find('td:eq(4)').html()
-				};
-				var event24 = {
+	};
+	var event24 = {
 		day: "Thursday",
 		startTime: "1:30",
 		endTime: "2:30",
 		name: $(tableRows[5]).find('td:eq(4)').html()
-				};
-				var thursdayEvents = {
+	};
+	var thursdayEvents = {
 		event1: event19,
 		event2: event20,
 		event3: event21,
 		event4: event22,
 		event5: event23,
 		event6: event24
-				};
-				var event25 = {
+	};
+	var event25 = {
 		day: "Friday",
 		startTime: "9:30",
 		endTime: "10:30",
 		name: $(tableRows[0]).find('td:eq(5)').html()
-				};
-				var event26 = {
+	};
+	var event26 = {
 		day: "Friday",
 		startTime: "10:30",
 		endTime: "11:30",
 		name: $(tableRows[1]).find('td:eq(5)').html()
-				};
-				var event27 = {
+	};
+	var event27 = {
 		day: "Friday",
 		startTime: "11:30",
 		endTime: "12:00",
 		name: $(tableRows[2]).find('td:eq(5)').html()
-				};
-				var event28 = {
+	};
+	var event28 = {
 		day: "Friday",
 		startTime: "12:00",
 		endTime: "12:30",
 		name: $(tableRows[3]).find('td:eq(5)').html()
-				};
-				var event29 = {
+	};
+	var event29 = {
 		day: "Friday",
 		startTime: "12:30",
 		endTime: "1:30",
 		name: $(tableRows[4]).find('td:eq(5)').html()
-				};
-				var event30 = {
+	};
+	var event30 = {
 		day: "Friday",
 		startTime: "1:30",
 		endTime: "2:30",
 		name: $(tableRows[5]).find('td:eq(5)').html()
-				};
-				var fridayEvents = {
+	};
+	var fridayEvents = {
 		event1: event25,
 		event2: event26,
 		event3: event27,
 		event4: event28,
 		event5: event29,
 		event6: event30
-				};
+	};
 
-				var schedule = {
+	var schedule = {
 		monday: mondayEvents,
 		tuesday: tuesdayEvents,
 		wednesday: wednesdayEvents,
 		thursday: thursdayEvents,
 		friday: fridayEvents
-				};
-				var residentName = $("#residentChosen").text();
-				var query = new Parse.Query(Residents);
-				query.equalTo("name", residentName);
-				query.first({
+	};
+	var residentName = $("#residentChosen").text();
+	var query = new Parse.Query(Residents);
+	query.equalTo("name", residentName);
+	query.first({
 		success: function (result) {
 			result.set("schedule", schedule);
 			result.save();
@@ -625,5 +630,5 @@ function createSchedule(tableRows) {
 			$(".scheduleNotSaved").slideDown().delay(2000)
 				.slideUp();
 		}
-				});
+	});
 }
