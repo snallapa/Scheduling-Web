@@ -1,102 +1,236 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Fractal by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
 <head>
-<meta charset="utf-8">
-
-<title>Scheduling</title>
-<meta name="description" content="My Parse App">
-<meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/jumbotron.css">
+<title>Seven Hills Scheduling</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="assets/css/main.css" />
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript"
 	src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+
 </head>
+<body id="top">
 
-<body>
-
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-					aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand">Scheduling</a>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right formLogIn">
-					<div class="form-group">
-						<input type="text" placeholder="Username"
-							class="form-control usernameForm">
-					</div>
-					<div class="form-group">
-						<input type="password" placeholder="Password"
-							class="form-control passwordForm">
-					</div>
-					<button type="submit" class="btn btn-success">Sign in</button>
-				</form>
-			</div>
-			<!--/.navbar-collapse -->
-		</div>
-	</nav>
-	<!-- Main jumbotron for a primary marketing message or call to action -->
-	<div class="background-image">
-		<div class="backgroundImage">
-			<div class="backgroundOverlay">
-				<div class="jumbotron background">
-					<div class="container">
-						<img src="css/logo.png">
-					</div>
+	<!-- Header -->
+	<header id="header">
+		<div class="content">
+			<h1>
+				<a href="#">Seven Hills Scheduling</a>
+			</h1>
+			<p>
+				An easy to use scheduling tool for participants of Aspire! Worcester. <br> Brought to you by <a href="http://html5up.net">Team
+					Cerebellum</a>.
+			</p>
+			<ul class="actions">
+				<div class="form-group">
+					<input type="text" placeholder="Username"
+						class="form-control usernameForm">
 				</div>
-			</div>
-			<div class="container container1">
-				<!-- Example row of columns -->
-				<div class="row">
-					<div class="col-md-4">
-						<h2>Edit Schedules</h2>
-						<p>Easily edit schedules in a table format. Simply click on
-							the name of the resident and click on time blocks located on the
-							schedule to add and change classes.</p>
-					</div>
-					<div class="col-md-4">
-						<h2>Add and Remove Residents</h2>
-						<p>Quickly and easily remove users by clicking on their name
-							and clicking on the remove button. Also, easily add users just by
-							clicking the "+" located above the search bar.</p>
-
-					</div>
-					<div class="col-md-4">
-						<h2>Search Residents</h2>
-						<p>To easily find residents, a search bar is located above the
-							list of residents. The list shortens automatically as characters
-							are inputed to make finding users easier.</p>
-					</div>
+				<br>
+				<div class="form-group">
+					<input type="password" placeholder="Password"
+						class="form-control passwordForm">
 				</div>
-			</div>
+				<br>
+				<li><button class="signinButton">Sign in</button></li>
+				<li><button href="#one"
+						class="button icon fa-chevron-down scrolly">Learn</button></li>
+			</ul>
 		</div>
-	</div>
+	</header>
 
-	<!-- /container -->
+	<!-- One -->
+	<section id="one" class="wrapper style2 special">
+		<header class="major">
+			<h2>
+				The Scheduling Web App is a simple-to-use online tool for<br />
+				creating, updating, and viewing schedules for participants.
+			</h2>
+		</header>
+		<ul class="icons major">
+			<li><a href = "#two"><span class="icon fa-pencil"><span class="label">Record</span></span></a></li>
+			
+			<li><a href = "#two"><span class="icon fa-table"><span class="label">Edit</span></span></a></li>
+			<li><a href = "#two"><span class="icon fa-thumbs-up"><span class="label">Upload</span></span></a></li>
+		</ul>
+	</section>
+
+	<!-- Two -->
+	<section id="two" class="wrapper">
+		<div class="inner alt">
+			<section class="spotlight">
+				<div class="image">
+					<img src="img/search.jpg" alt="" />
+				</div>
+				<div class="content">
+					<h3>Participant list and Instant Search</h3>
+					<p>The scheduling app features a rapid and easy to use search feature that allows
+					users to quickly find and edit participants. Users can add, remove, or edit existing
+					participants with ease.</p>
+				</div>
+			</section>
+			<section class="spotlight">
+				<div class="image">
+					<img src="img/export.jpg" alt="" />
+				</div>
+				<div class="content">
+					<h3>Export Schedules to PDFs</h3>
+					<p>Schedules can be exported as PDF documents for printing and delivering With one
+					push of a button, a participant schedule becomes a printable document. Export was added 
+					in version 2.0.0.</p>
+				</div>
+			</section>
+			<section class="spotlight">
+				<div class="image">
+					<img src="img/classRoster.jpg" alt="" />
+				</div>
+				<div class="content">
+					<h3>Quickly find Class Rosters and times</h3>
+					<p>With the latest update, users can now quickly determined who signed up for a particular
+					 class at a specific time. Class rosters can also be exported as PDF documents.</p>
+				</div>
+			</section>
+			<section class="special">
+				<h2><a href = "assets/Cerebellum_UserGuide2.pdf" target="_blank">Full User Guide</a></h2>
+			</section>
+		</div>
+	</section>
 
 
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<!-- Four -->
+
+	<section id="four" class="wrapper">
+		<div class="inner">
+
+			<header class="major">
+				<h2>Overview</h2>
+			</header>
+
+			<section>
+				<h3>A Brief Introduction</h3>
+				<p>The Seven Hills Foundation in Worcester Massachusetts offers
+					services to people with a wide array of cognitive and physical
+					disabilities. These disabilities make performing everyday tasks
+					challenging. The primary goal of this project is to specifically
+					address the clients’ need for accessing and remembering their
+					schedules at Seven Hills. The project also intends to create an
+					easier way for the staff of Seven Hills to manage the schedules of
+					the participants. Users are encouraged to contact Team Cerebellum
+					with any questions they may have regarding the Web App its
+					features.</p>
+				<hr />
+				<header>
+					<h3>Background</h3>
+				</header>
+				<p>The ages of the participants at the Aspire! Worcester Program
+					range from 20 to 60. Most of the participants at the center have
+					Down syndrome: a genetic disorder that presents a variety of
+					symptoms ranging from cognitive disabilities to physical
+					impairments. While therapy and training can help participants
+					overcome most physical issues, one disability that hinders patients
+					is a low IQ. The faculty at the Seven Hills facility must work
+					around this disorder by providing simple instructions and easy to
+					follow rules that the participants can understand. The faculty must
+					be careful to support and respect the participants while providing
+					them with enough freedom so they can enjoy their time at the
+					program.</p>
+				<p>According to the Assistive Technology Program Director, Mrs.
+					Jean Des Roches, there are approximately twenty iPads that the
+					participants are allowed to sign out and use. The intent of the
+					iPads was to allow the participants to learn to use modern
+					technology and apply the technology in their daily lives. However,
+					shortly after the iPads were introduced to the facility, many of
+					the participants found them difficult to use and stopped using them
+					all together. Now, the participants only use the iPads for
+					entertainment: watching movies and television shows. Because many
+					of the participants have a cognitive disadvantage, they are unable
+					to use complex apps with several buttons and options. While many
+					apps exist that are simple to use, most of these are directed
+					toward an age inappropriate audience, and many of the participants
+					would feel patronized to use apps that were designed for elementary
+					students. As a result, the iPads are not used to the extent to
+					which they can be used.</p>
+				<p>At the program, the participants are able to participate in a
+					range of activities and plan their own schedules for the week. One
+					of the rules of the facility is that the schedules need to be
+					reviewed by the faculty before they can be approved. The current
+					method that participants use to generate their schedules is
+					archaic: writing schedules by hand. Not only is it difficult for
+					the faculty to manage these schedules, but also it is difficult for
+					the participants to see their own schedules. Because they can be
+					forgetful, the participants need easy access to their own schedules
+					to avoid chaos and confusion. This problem pertains to many of the
+					participants of the Seven Hills facility, and they would all
+					benefit from a simple way to view their weekly schedules.</p>
+
+				<blockquote>
+					For further reading, please check out the full user guide <a
+						href="assets/Cerebellum_UserGuide2.pdf">here</a>
+				</blockquote>
+
+			</section>
+		</div>
+	</section>
+
+	<!-- Five -->
+	<section id="five" class="wrapper">
+		<div class="inner">
+
+			<header class="major">
+				<h2>Team Cerebellum</h2>
+			</header>
+
+			<section>
+			
+				<h3>Hey Hi Hello</h3>
+				<p>
+					We're just two guys trying to help people. Massachusetts Academy of
+					Math and Science Class of 2016. Our links are at the bottom of the
+					page, so please feel free to get in touch with us if you have any
+					questions. <br> Jagath Jai Kumar and Sahith Nallapareddy
+				</p>
+				<hr />
+				<blockquote>
+					Please checkout <a href="http://users.wpi.edu/~snallapareddy/" target="_blank">Team Cerebellum</a> for more news on
+					our latest projects.
+				</blockquote>	
+			</section>
+		</div>
+	</section>
+	<!-- Footer -->
+	<footer id="footer">
+		<ul class="icons">
+			<li><a href="https://github.com/snallapa/Scheduling-Web" target="_blank"
+				class="icon fa-github"><span class="label">Facebook</span></a></li>
+			<li><a href="https://google.com" target="_blank" class="icon fa-google"><span
+					class="label">Twitter</span></a></li>
+			<li><a href="http://stackoverflow.com" target="_blank"
+				class="icon fa-stack-overflow"><span class="label">Instagram</span></a></li>
+		</ul>
+		<p class="copyright">
+			&copy; Credits: <a href="http://users.wpi.edu/~jjaikumar/"target="_blank">Jagath Jai Kumar</a> and
+			<a href="http://users.wpi.edu/~snallapareddy/" target="_blank">Sahith Nallapareddy</a>
+		</p>
+		<p>Version 2.1.0 Updated on July 2</p>
+		<p>2015</p>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="js/parse.js" type="text/javascript">
+		<script src="assets/js/jquery.min.js">
+	</script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="assets/js/main.js"></script>
 
 </body>
-<script src="js/parse.js" type="text/javascript">
-	
-</script>
-
-</body>
-
 </html>

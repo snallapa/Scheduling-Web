@@ -17,7 +17,7 @@ $(document).ready(
 		if (timer === null) {
 			timer = 0;
 		}
-		$(".formLogIn").submit(
+		$(".signinButton").click(
 			function () {
 				var username = $(".usernameForm").val();
 				var password = $(".passwordForm").val();
@@ -32,7 +32,7 @@ $(document).ready(
 						alert("Oh no! There must have been a mistake " + "error: " + error.message);
 					}
 				});
-				return false;
+			//	return false;
 			});
 		var updateList = function (residents) {
 			$(".itemData").remove();

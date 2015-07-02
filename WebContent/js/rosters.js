@@ -40,6 +40,7 @@ $(document).ready(
 					alert("errrrrror");
 				}
 		});
+		
 
 	});
 function generateClassRoster(residents) {
