@@ -8,9 +8,15 @@ var Residents = Parse.Object.extend("Residents");
 var residents = [];
 //please do not change (supposed to be final)
 var LOCAL_STORAGE_STRING = "list_item_place";
+var LIST_THRESHOLD_VALUE = 8;
 $(document).ready(
 	function () {
+		$(".alert").hide();
+		$(".alert").slideUp();
 		var timer = localStorage.getItem(LOCAL_STORAGE_STRING);
+		if (timer === null) {
+			timer = 0;
+		}
 		$(".formLogIn").submit(
 			function () {
 				var username = $(".usernameForm").val();
@@ -50,10 +56,13 @@ $(document).ready(
 					loadSchedule(event);
 				});
 			$("#residentChosen").trigger("click");
-			$('.residentsList').animate({
-				scrollTop: $("#residentChosen").offset().top
-			}, 500);
-		}
+			//only scroll if that person is not 'visible' 
+			if (timer > LIST_THRESHOLD_VALUE) {
+				$('.residentsList').animate({
+					scrollTop: $("#residentChosen").position().top
+				}, 500);
+			}
+		};
 		var query = new Parse.Query(Residents);
 		query.ascending("name");
 		query.find({
@@ -208,15 +217,15 @@ $(document).ready(
 				});
 			}
 		});
-		
+
 		$(".removeResident").click(function () {
 			$(".residentWarning").slideDown();
 		});
-		
-		$(".closeWarning").click(function() {
+
+		$(".closeWarning").click(function () {
 			$(".alert").slideUp();
 		});
-		
+
 		$(".actuallyRemoveResident").click(
 			function () {
 				$(".alert").slideUp();
@@ -262,7 +271,7 @@ $(document).ready(
 			localStorage.setItem(LOCAL_STORAGE_STRING, timer.toString());
 			return "Bye now!";
 		});
-		
+
 		$(".clearSchedule").click(function () {
 			$(".clearWarning").slideDown();
 		});

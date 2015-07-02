@@ -9,9 +9,14 @@
 		<link rel="stylesheet" href="css/residents.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
-		<script src="js/parse.js" type="text/javascript">
-</script>
+		<script src="js/parse.js" type="text/javascript"></script>
+		<script src="js/jspdf.min.js"></script>
 		<script src="js/scheduling.js"></script>
+		<script type="text/javascript" src="js/standard_fonts_metrics.js"></script>
+		<script type="text/javascript" src="js/split_text_to_size.js"></script>
+		<script type="text/javascript" src="js/from_html.js"></script>
+		<script src="js/jspdf.debug.js"></script>
+		<script src="js/html2canvas.min.js"></script>
 	</head>
 	<body>
 		<body>
@@ -205,10 +210,10 @@
 							<tfoot>
 								<tr>
 									<th>
-										<button type="button" class="btn btn-danger btn-sm removeResident">Remove Resident</button>
+										<button type="button" class="btn btn-danger btn-sm removeResident" data-html2canvas-ignore="true">Remove Resident</button>
 									</th>
 									<th class="th-fix">
-										<button type="button" class="btn btn-info btn-sm editSchedule" data-toggle="modal" data-target="#editModal">Edit Resident</button>
+										<button type="button" class="btn btn-info btn-sm editSchedule" data-html2canvas-ignore="true" data-toggle="modal" data-target="#editModal">Edit Resident</button>
 										<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 										aria-hidden="true">
 											<div class="modal-dialog">
@@ -248,12 +253,14 @@
 										</div>
 									</th>
 									<th></th>
-									<th></th>
 									<th>
-										<button type="button" class="btn btn-warning btn-sm clearSchedule">Clear Schedule</button>
+										<button type="button" class="btn btn-primary btn-sm exportSchedule"data-html2canvas-ignore="true">Export</button>
 									</th>
 									<th>
-										<button type="button" class="btn btn-success btn-sm saveSchedule">Save Schedule</button>
+										<button type="button" class="btn btn-warning btn-sm clearSchedule"data-html2canvas-ignore="true">Clear Schedule</button>
+									</th>
+									<th>
+										<button type="button" class="btn btn-success btn-sm saveSchedule"data-html2canvas-ignore="true">Save Schedule</button>
 									</th>
 								</tr>
 							</tfoot>
@@ -265,28 +272,69 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 			<script src="js/bootstrap.min.js"></script>
 			<script type="text/javascript" src="js/editableTable.js"></script>
-			<script>
-				$("#schedule").editableTableWidget();
-				$('#schedule').editableTableWidget({
-					editor : $('<textarea>')
-				});
-				$('#schedule').editableTableWidget({
-					cloneProperties : [ 'background', 'border', 'outline' ]
-				});
-				$('table td').on('validate', function(evt, newValue) {
-					var cell = $(this);
-					var column = cell.index();
-					if (column === 0) {
-						return false;
-					} else {
-						return newValue.trim().length < 65;
-					}
-		
-				});
-			</script>
 			<script src="js/jquery.hideseek.min.js"></script>
 			<script>
 				$('#search').hideseek();
+			</script>
+			<script>
+				$(".exportSchedule").click(function () {
+					var text = $("#residentChosen").text() + "";
+					var canvasToImage = function(canvas){
+        var img = new Image();
+        var dataURL = canvas.toDataURL('image/png');
+        img.src = dataURL;
+        return img;
+    };
+var canvasShiftImage = function(oldCanvas, shiftAmt, realPdfPageHeight) {
+        shiftAmt = parseInt(shiftAmt) || 0;
+        if(!shiftAmt){ return oldCanvas; }
+        
+        var newCanvas = document.createElement('canvas');
+        newCanvas.height = oldCanvas.height - shiftAmt;
+        newCanvas.width = oldCanvas.width;
+        var ctx = newCanvas.getContext('2d');
+        
+        var img = canvasToImage(oldCanvas);
+        ctx.drawImage(img,0, shiftAmt, img.width, img.height, 0, 0, img.width, img.height);
+        
+        return newCanvas;
+};
+
+var html2canvasSuccess = function (canvas) {
+    var pdf = new jsPDF("l", "pt", "letter"),
+        pdfInternals = pdf.internal,
+        pdfPageSize = pdfInternals.pageSize,
+        pdfScaleFactor = pdfInternals.scaleFactor/5,
+        pdfPageWidth = pdfPageSize.width,
+        pdfPageHeight = pdfPageSize.height,
+        totalPdfHeight = 0,
+        htmlPageHeight = canvas.height,
+        htmlScaleFactor = canvas.width / (pdfPageWidth * pdfScaleFactor);
+
+    while (totalPdfHeight < htmlPageHeight) {
+        var newCanvas = canvasShiftImage(canvas, totalPdfHeight, pdfPageHeight * pdfScaleFactor);
+		//var centered_x = (pdfPageSize.width / 2) - (400*newCanvas.width/newCanvas.height * pdfScaleFactor/2);
+		var textWidth = pdf.getStringUnitWidth(text) * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
+    	var textOffset = (pdf.internal.pageSize.width - textWidth) / 2;
+		pdf.text(textOffset, 50, text);
+        pdf.addImage(newCanvas, 'png',75,80, pdfPageWidth - 150, pdfPageHeight - 200, null, 'NONE'); //note the format doesn't seem to do anything... I had it at 'pdf' and it didn't care
+
+        totalPdfHeight += (pdfPageHeight * pdfScaleFactor * htmlScaleFactor);
+
+        if (totalPdfHeight < htmlPageHeight) { pdf.addPage(); }
+    }
+
+    pdf.save('test.pdf');
+};
+
+
+html2canvas($('#schedule')[0], {
+    onrendered: function (canvas) {
+        html2canvasSuccess(canvas);
+    }
+});
+
+					});
 			</script>
 		</body>
 
