@@ -5,7 +5,7 @@
 <title>Class Rosters</title>
 <meta name="description" content="My Parse App">
 <meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/rosters.css">
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -53,6 +53,7 @@
 		<div class=residentsScheduling>
 
 			<div class="residentsList">
+
 				<div class="list-group-item">
 					<div class="displayText">
 
@@ -64,10 +65,27 @@
 				</div>
 				<div class="list-group"></div>
 			</div>
+
 			<div class="residentsSchedule">
+
+				<ul class="nav nav-tabs">
+					<li role="presentation" class="active"><a href="#">Monday</a></li>
+					<li role="presentation"><a href="#">Tuesday</a></li>
+					<li role="presentation"><a href="#">Wednesday</a></li>
+					<li role="presentation"><a href="#">Thursday</a></li>
+					<li role="presentation"><a href="#">Friday</a></li>
+				</ul>
+
+				<!--  	<button type="button" class="btn btn-primary btn-med removeResident">Monday</button>
+			<button type="button" class="btn btn-primary btn-med removeResident">Tuesday</button>
+			<button type="button" class="btn btn-primary btn-med removeResident">Wednesday</button>
+			<button type="button" class="btn btn-primary btn-med removeResident">Thursday</button>
+			<button type="button" class="btn btn-primary btn-med removeResident">Friday</button>
+	-->
+
 				<h3>Class Roster - CLASS NAME - DAY AND TIME</h3>
 				<h4>Instructor: PERSON</h4>
-				
+
 				<br>
 				<table id="schedule" class="table tableFix">
 					<thead>
@@ -162,9 +180,6 @@
 				</table>
 			</div>
 		</div>
-
-
-
 	</div>
 	<!-- Bootstrap core JavaScript==================================================- ->
 	<!-- Placed at the end of the document so the pages load faster -->
