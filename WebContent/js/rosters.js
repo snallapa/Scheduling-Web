@@ -6,6 +6,7 @@ var knownClasses = [];
 var classRosterFromServers = [];
 var residents = [];
 var indexesinQueue = [];
+var classNames = [];
 $(document).ready(
 	function () {
 		
@@ -30,6 +31,10 @@ $(document).ready(
 						}
 						generateClassRoster(residents);
 						saveClassRoster();
+						convertToStringForAutocomplete();
+						$( "input" ).not("#search").autocomplete({
+     						source: classNames
+    					});
 					},
 					error: function (error) {
 						alert("errrrrror");
@@ -40,6 +45,12 @@ $(document).ready(
 					alert("errrrrror");
 				}
 		});
+		
+		$(".tabs a").click(function (event) {
+			event.preventDefault();
+			$(this).tab('show');
+		});
+		
 
 	});
 function generateClassRoster(residents) {
@@ -123,4 +134,22 @@ function classIn(knownClasses, event1) {
 		}
 	}
 	return -1;
+}
+
+function convertToStringForAutocomplete() {
+	for (var i = 0; i < knownClasses.length; i++) {
+		var className = knownClasses[i].name;
+		if(!(inClassNames(className))) {
+			classNames.push(className);
+		}
+	}
+}
+
+function inClassNames(name) {
+	for (var i = 0; i < classNames.length; i++) {
+		if(name === classNames[i]) {
+			return true;
+		}
+	}
+	return false;
 }
