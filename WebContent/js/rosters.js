@@ -1,164 +1,89 @@
 /// <reference path="../../typings/jquery/jquery.d.ts"/>
 
-var Residents = Parse.Object.extend("Residents");
-var ClassRosters = Parse.Object.extend("ClassRosters");
-var knownClasses = [];
-var classRosterFromServers = [];
-var residents = [];
-var indexesinQueue = [];
-var classNames = [];
+
+var dayNames = ["monday", "tuesday", "wednesday","thursday","friday"];
+var indexOfList = 0;
+var LOCAL_STORAGE_STRING = "list_item_place";
+var LOCAL_STORAGE_DATE = "day";
+var currentday;
+var currentdayClasses = [];
 $(document).ready(
 	function () {
-		
-		var queryClasses = new Parse.Query(ClassRosters);
-		queryClasses.find({
-			success: function (results) {
-				for (var i = 0; i < results.length; i++) {
-					var event = {name:results[i].get("name"), 
-						startTime:results[i].get("startTime"), 
-						endTime:results[i].get("endTime"),
-						day:results[i].get("day"),
-						residents:[],
-						fromServer:true};
-					knownClasses[i] = event;
-					classRosterFromServers[i] = results[i];
-				}
-				var query = new Parse.Query(Residents);
-				query.find({
-					success: function (results) {
-						for (var i = 0; i < results.length; i++) {
-							residents[i] = results[i];
-						}
-						generateClassRoster(residents);
-						saveClassRoster();
-						convertToStringForAutocomplete();
-						$( "input" ).not("#search").autocomplete({
-     						source: classNames
-    					});
-						fillListGroup();
-					},
-					error: function (error) {
-						alert("errrrrror");
-					}
-					});
-				},
-				error: function (error) {
-					alert("errrrrror");
-				}
-		});
+		var indexOfList = parseInt(localStorage.getItem(LOCAL_STORAGE_STRING));
+		var currentday = parseInt(localStorage.getItem(LOCAL_STORAGE_DATE));
+		if (currentday !== new Date().getDay()%5) {
+			indexOfList = 0;
+		}
+		if (currentday === null) {
+			new Date().getDay()%5;
+		}
+		if (indexOfList === null) {
+			indexOfList = 0;
+		}
 		
 		$(".tabs a").click(function (event) {
 			event.preventDefault();
+			getClassesForThisDay();
+			fillListGroup();
+			currentday = dayNames.indexOf($(event.target).text().toLowerCase());
+			indexOfList = 0;
 			$(this).tab('show');
 		});
+		$(".tabs a").eq(currentday).trigger("click");
 		
 		function fillListGroup() {
 			$(".itemData").remove();
-			for (var i = 0; i < array.length; i++) {
-				var element = array[i];
-				
-			}
-		}
-		
-
-	});
-function generateClassRoster(residents) {
-	for (var i = 0; i < residents.length; i++) {
-		var scheduleResident = residents[i].get("schedule");
-		if (scheduleResident !== undefined) {
-			for (var property in scheduleResident) {
-				if (scheduleResident.hasOwnProperty(property)) {
-					var dayOfSchedule = scheduleResident[property];
-					for (var eventProperty in dayOfSchedule) {
-						if (dayOfSchedule.hasOwnProperty(eventProperty)) {
-							var event = dayOfSchedule[eventProperty];
-							if (event.name !== "") {
-								if (!sameEvent(knownClasses, event)) {
-									event.residents = [residents[i].get("name")];
-									event.fromServer = false;
-									knownClasses.push(event);
-								}
-								else {
-									var index = classIn(knownClasses, event);
-									knownClasses[index].residents.push(residents[i].get("name"));
-								}
-							}
-						}
+			for (var i = 0; i < currentdayClasses.length; i++) {
+				var currentClass = currentdayClasses[i];
+					if(i === indexOfList) {
+						$(".list-group").append('<a href="#" class="list-group-item itemData active" id="classChosen">' + currentClass.name + '</a>');
+					}
+					else {
+						$(".list-group").append('<a href="#" class="list-group-item itemData">' + currentClass.name + '</a>');
 					}
 				}
-			}
-		}
-	}
-}
-
-function saveClassRoster() {
-	for (var i = 0;i<knownClasses.length;i++) {
-		var currentClass = knownClasses[i];
-		if(currentClass.fromServer) {
-			if(i<classRosterFromServers.length) {
-				var serverClass = classRosterFromServers[i];
-				if(currentClass.residents.length === 0) {
-					serverClass.destroy();
-				} else {
-					serverClass.set("residents", currentClass.residents);
-					serverClass.save();
-				}
-			}
-		}
-		else {
-			var classRoster = new ClassRosters();
-			classRoster.set("name", currentClass.name);
-			classRoster.set("startTime", currentClass.startTime);
-			classRoster.set("endTime", currentClass.endTime);
-			classRoster.set("residents", currentClass.residents);
-			classRoster.set("day", currentClass.day);
-			classRoster.save(null, {
-				success: function(result) {
-					
-				},
-				error: function(result,error) {
-					
-				}
+			$(".itemData").click(function (event) {
+				$("tbody").html("");
+				$(".itemData:eq(" + indexOfList + ")").removeClass("active");
+				$(".itemData:eq(" + indexOfList + ")").removeAttr('id');
+				indexOfList = $(this).index();
+				$(".itemData:eq(" + indexOfList + ")").addClass("active");
+				$(".itemData:eq(" + indexOfList + ")").attr("id", "residentChosen");
+				$(".classTitle").text("Class Roster - " + currentdayClasses[indexOfList].name + " - " + currentdayClasses[indexOfList].day + " " + currentdayClasses[indexOfList].startTime + " - " + currentdayClasses[indexOfList].endTime );
+				fillTable();
 			});
+			$("#classChosen").trigger("click");
 			
 		}
-	}
-}
-
-function sameEvent(knownClasses, event1) {
+		$(window).unload(function () {
+			localStorage.setItem(LOCAL_STORAGE_STRING, indexOfList.toString());
+			localStorage.setItem(LOCAL_STORAGE_DATE, currentday.toString());
+			return "Bye now!";
+		});
+		$('#search').hideseek();
+		
+		function fillTable() {
+			var residentsInClass = currentdayClasses[indexOfList].residents;
+			var newRow = 0;
+			for (var i = 0; i < residentsInClass.length; i++) {
+				$("tbody").append("<tr></tr>");
+				$("tbody tr").last().append('<td class="names">' + residentsInClass[i] + '</td><td class="clearable"></td>');
+				if(i === residentsInClass.length - 1) {
+					break;
+				}
+				i++;
+				$("tbody tr").last().append('<td class="names">' + residentsInClass[i] + '</td><td class="clearable"></td>');
+			}
+		}
+		getClasses(fillListGroup);
+	});
+function getClassesForThisDay(day) {
+	currentdayClasses = [];
+	var currentdayname = $(".tabs.active a").text().toLowerCase();
 	for (var i = 0; i < knownClasses.length; i++) {
-		var event2 = knownClasses[i];
-		if (event1.name === event2.name && event1.startTime === event2.startTime && event1.endTime === event2.endTime && event1.day === event2.day) {
-			return true;
+		if(knownClasses[i].day.toLowerCase() === currentdayname) {
+			currentdayClasses.push(knownClasses[i]);
 		}
+		
 	}
-	return false;
-}
-
-function classIn(knownClasses, event1) {
-	for (var i = 0; i < knownClasses.length; i++) {
-		var event2 = knownClasses[i];
-		if (event1.name === event2.name && event1.startTime === event2.startTime && event1.endTime === event2.endTime && event1.day === event2.day) {
-			return i;
-		}
-	}
-	return -1;
-}
-
-function convertToStringForAutocomplete() {
-	for (var i = 0; i < knownClasses.length; i++) {
-		var className = knownClasses[i].name;
-		if(!(inClassNames(className))) {
-			classNames.push(className);
-		}
-	}
-}
-
-function inClassNames(name) {
-	for (var i = 0; i < classNames.length; i++) {
-		if(name === classNames[i]) {
-			return true;
-		}
-	}
-	return false;
 }
