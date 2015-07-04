@@ -112,7 +112,7 @@ function saveClassRoster() {
 function sameEvent(knownClasses, event1) {
 	for (var i = 0; i < knownClasses.length; i++) {
 		var event2 = knownClasses[i];
-		if (event1.name === event2.name && event1.startTime === event2.startTime && event1.endTime === event2.endTime && event1.day === event2.day) {
+		if (event1.name.toLowerCase() === event2.name.toLowerCase() && event1.startTime === event2.startTime && event1.endTime === event2.endTime && event1.day === event2.day) {
 			return true;
 		}
 	}
@@ -122,7 +122,7 @@ function sameEvent(knownClasses, event1) {
 function classIn(knownClasses, event1) {
 	for (var i = 0; i < knownClasses.length; i++) {
 		var event2 = knownClasses[i];
-		if (event1.name === event2.name && event1.startTime === event2.startTime && event1.endTime === event2.endTime && event1.day === event2.day) {
+		if (event1.name.toLowerCase() === event2.name.toLowerCase() && event1.startTime === event2.startTime && event1.endTime === event2.endTime && event1.day === event2.day) {
 			return i;
 		}
 	}

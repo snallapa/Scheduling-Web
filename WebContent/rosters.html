@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/rosters.css">
-		<link rel="icon" type="image/ico" href="favicon.ico"/>
+		<link rel="icon" type="image/ico" href="favicon.ico" />
 	</head>
 	<body>
 		<body>
@@ -74,27 +74,23 @@
 						<h3 class="classTitle">Class Roster - CLASS NAME - DAY AND TIME</h3>
 						<!-- <h4>Instructor: PERSON</h4> -->
 						<br>
-						<table id="schedule" class="table tableFix">
+						<table id="rosters" class="table tableFix">
 							<thead>
 								<tr>
 									<th>Participant</th>
-									<th>Note</th>
+									<th></th>
 									<th>Participant</th>
-									<th>Note</th>
+									<th></th>
 								</tr>
 							</thead>
-							<tbody>
-								
-							</tbody>
+							<tbody></tbody>
 							<tfoot>
-								<th>
-									<button type="button" class="btn btn-warning btn-sm clearSchedule">Clear Notes</button>
-								</th>
+								<th></th>
+								<th></th>
 								<th></th>
 								<th>
-									<button type="button" class="btn btn-success btn-sm saveSchedule">Save Notes</button>
+									<button type="button" class="btn btn-primary btn-sm exportSchedule" data-html2canvas-ignore="true">Export</button>
 								</th>
-								<th></th>
 							</tfoot>
 						</table>
 					</div>
@@ -109,6 +105,13 @@
 			<script src="js/jquery.hideseek.min.js"></script>
 			<script src="js/jquery-ui.min.js"></script>
 			<script src="js/jquery.hideseek.min.js"></script>
+			<script src="js/jspdf.min.js"></script>
+			<script src="js/jspdf.debug.js"></script>
+			<script type="text/javascript" src="js/standard_fonts_metrics.js"></script>
+			<script type="text/javascript" src="js/split_text_to_size.js"></script>
+			<script type="text/javascript" src="js/from_html.js"></script>
+			<script type="text/javascript" src="js/addimage.js"></script>
+			<script src="js/html2canvas.min.js"></script>
 			<script src="js/generateRosters.js"></script>
 			<script src="js/rosters.js"></script>
 		</body>
