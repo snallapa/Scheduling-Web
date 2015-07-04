@@ -35,6 +35,7 @@ $(document).ready(
 						$( "input" ).not("#search").autocomplete({
      						source: classNames
     					});
+						fillListGroup();
 					},
 					error: function (error) {
 						alert("errrrrror");
@@ -50,6 +51,14 @@ $(document).ready(
 			event.preventDefault();
 			$(this).tab('show');
 		});
+		
+		function fillListGroup() {
+			$(".itemData").remove();
+			for (var i = 0; i < array.length; i++) {
+				var element = array[i];
+				
+			}
+		}
 		
 
 	});
