@@ -36,12 +36,12 @@ function getClasses(fillListGroup) {
 						fillListGroup();
 					},
 					error: function (error) {
-						alert("Rosters can not be generated");
+						console.error("Rosters not generated will try again after");
 					}
 					});
 				},
 				error: function (error) {
-					alert("Rosters can not be generated");
+					console.log("Rosters not generated will try again after")
 				}
 		});
 	}

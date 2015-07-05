@@ -7,6 +7,7 @@ $(document).ready(
 	function () {
 		$(".alert").hide();
 		$(".alert").slideUp();
+		getClasses(null);
 		var indexOfList = localStorage.getItem(LOCAL_STORAGE_STRING);
 		if (indexOfList === null) {
 			indexOfList = 0;
@@ -266,6 +267,7 @@ $(document).ready(
 		$('table td').on('change', function (evt, newValue) {
 			var tableRows = $("#schedule").find('tbody').find('tr');
 			createSchedule(tableRows);
+			getClasses(null);
 		});
 		$(".exportSchedule").click(function () {
 			var text = $("#residentChosen").text() + "";
@@ -328,7 +330,7 @@ $(document).ready(
 			});
 		});
 		$('#search').hideseek();
-		getClasses(null);
+		
 
 		window.setInterval(function () {
 			/// call your function here
