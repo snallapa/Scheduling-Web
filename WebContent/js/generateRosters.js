@@ -32,6 +32,7 @@ function getClasses(fillListGroup) {
 						$( "input" ).not("#search").autocomplete({
      						source: classNames
     					});
+						
 						getClassesForThisDay();
 						fillListGroup();
 					},
@@ -83,7 +84,11 @@ function saveClassRoster() {
 				var serverClass = classRosterFromServers[i];
 				if(currentClass.residents.length === 0) {
 					serverClass.destroy();
-				} else {
+				} 
+				else if (checkToSeeIfArrayEqual(currentClass.residents, serverClass.get("residents"))) {
+					console.log("no change to class: " + currentClass.name);
+				}
+				else {
 					serverClass.set("residents", currentClass.residents);
 					serverClass.save();
 				}
@@ -145,4 +150,8 @@ function inClassNames(name) {
 		}
 	}
 	return false;
+}
+
+function checkToSeeIfArrayEqual(arr1, arr2) {
+	return $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
 }
