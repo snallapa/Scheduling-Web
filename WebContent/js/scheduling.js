@@ -328,6 +328,7 @@ $(document).ready(
 			});
 		});
 		$('#search').hideseek();
+		getClasses(null);
 
 		window.setInterval(function () {
 			/// call your function here
