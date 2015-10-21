@@ -75,6 +75,7 @@ td {
 
 .clearable {
 	width:20%;
+	white-space:pre;
 }
 
 .list-item-inline {

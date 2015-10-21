@@ -62,11 +62,18 @@ $.fn.editableTableWidget = function (options) {
 				.keydown(
 				function (e) {
 					if (e.which === ENTER) {
-						setActiveText();
-						editor.hide();
-						active.focus();
-						e.preventDefault();
-						e.stopPropagation();
+						//if shift enter is pressed new line
+						if (e.shiftKey) {
+							editor.val(editor.val() + "\n");
+							e.preventDefault();
+							//e.stopPropagation();
+						} else {
+							setActiveText();
+							editor.hide();
+							active.focus();
+							e.preventDefault();
+							e.stopPropagation();
+						}
 					} else if (e.which === ESC) {
 						editor.val(active.text());
 						e.preventDefault();

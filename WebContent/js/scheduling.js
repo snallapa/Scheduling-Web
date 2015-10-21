@@ -98,8 +98,8 @@ $(document).ready(
 				parseFile.save().then(function () {
 					// The file has been saved to Parse.
 				}, function (error) {
-						alert("picture error");
-					});
+					alert("picture error");
+				});
 			}
 		});
 		$("#newcontactPicture").on('change', function () {
@@ -122,15 +122,33 @@ $(document).ready(
 				parseFile.save().then(function () {
 					// The file has been saved to Parse.
 				}, function (error) {
-						alert("picture error. try reloading page");
-					});
+					alert("picture error. try reloading page");
+				});
 			}
 		});
+
+		$('#myModal').on('shown.bs.modal', function () {
+			$('#name').focus();
+		});
+		$('#editModal').on('shown.bs.modal', function () {
+			$('#newName').focus();
+		});
+		$(document).keypress(function (e) {
+			if (e.which == 13) {
+				e.preventDefault();
+				if(($("#myModal").data('bs.modal') || {}).isShown) {
+					$(".userButton").trigger("click");
+				} else if (($("#editModal").data('bs.modal') || {}).isShown) {
+					$(".editUserButton").trigger("click");	
+				}
+			}
+		});
+
 		$(".userButton").click(function () {
 			var name = $("#name").val();
 			if (name === "") {
 				$(".residentNotAdded").slideDown().delay(3000)
-					.slideUp();
+				.slideUp();
 			} else {
 				var resident = new Residents();
 				name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length);
@@ -143,7 +161,7 @@ $(document).ready(
 					},
 					error: function (result, error) {
 						$(".residentNotAdded").slideDown().delay(3000)
-							.slideUp();
+						.slideUp();
 					}
 				});
 			}
@@ -175,7 +193,7 @@ $(document).ready(
 			var newName = $("#newName").val();
 			if (newName === "") {
 				$(".residentNotEdited").slideDown().delay(3000)
-					.slideUp();
+				.slideUp();
 			}
 			else {
 				newName = newName.substring(0, 1).toUpperCase() + newName.substring(1, newName.length);
@@ -211,7 +229,7 @@ $(document).ready(
 					},
 					error: function (result, error) {
 						$(".residentNotDeleted").slideDown()
-							.delay(2000).slideUp();
+						.delay(2000).slideUp();
 					}
 				});
 			});
@@ -252,7 +270,7 @@ $(document).ready(
 		}
 
 		$('#schedule').editableTableWidget({
-			editor: $('<input>')
+			editor: $('<textarea>')
 		});
 		$('#schedule').editableTableWidget({
 			cloneProperties: ['background', 'border', 'outline']
@@ -297,13 +315,13 @@ $(document).ready(
 function loadSchedule(clickEvent) {
 	var name = residents[indexOfList].get("name");
 	var MyRows = $("#schedule").find('tbody')
-		.find('tr');
+	.find('tr');
 	var query = new Parse.Query(Residents);
 	var schedule;
 	query.equalTo("name", name);
 
 	query.first({
-								success: function (result) {
+		success: function (result) {
 			schedule = result.get("schedule");
 			if (schedule !== undefined) {
 				$(".clearable").text("");
@@ -320,15 +338,15 @@ function loadSchedule(clickEvent) {
 					monday.event5.name);
 				$(MyRows[5]).find('td:eq(1)').html(
 					monday.event6.name);
-																var tuesday = schedule.tuesday;
-																$(MyRows[0]).find('td:eq(2)').html(
+				var tuesday = schedule.tuesday;
+				$(MyRows[0]).find('td:eq(2)').html(
 					tuesday.event1.name);
 				$(MyRows[1]).find('td:eq(2)').html(
 					tuesday.event2.name);
 				$(MyRows[2]).find('td:eq(2)').html(
 					tuesday.event3.name);
 				$(MyRows[3]).find('td:eq(2)').html(
-																				tuesday.event4.name);
+					tuesday.event4.name);
 				$(MyRows[4]).find('td:eq(2)').html(
 					tuesday.event5.name);
 				$(MyRows[5]).find('td:eq(2)').html(
@@ -632,5 +650,5 @@ function createSchedule(tableRows) {
 				.slideUp();
 		}
 	});
-	* */
+* */
 }

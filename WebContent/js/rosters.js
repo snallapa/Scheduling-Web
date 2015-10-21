@@ -11,28 +11,37 @@ $(document).ready(
 	function () {
 		var indexOfList = parseInt(localStorage.getItem(LOCAL_STORAGE_STRING));
 		var currentday = parseInt(localStorage.getItem(LOCAL_STORAGE_DATE));
-		if (currentday !== new Date().getDay() % 5) {
+
+		var actualDay = new Date().getDay() % 5;
+		if (currentday !== actualDay) {
 			indexOfList = 0;
 		}
+		//if the current day is not set, make it today
 		if (currentday === null) {
-			new Date().getDay() % 5;
+			currentday = actualDay;
 		}
+
 		if (indexOfList === null) {
 			indexOfList = 0;
 		}
 
 		$(".tabs a").click(function (event) {
 			event.preventDefault();
+			$(this).tab('show');
 			getClassesForThisDay();
 			fillListGroup();
 			currentday = dayNames.indexOf($(event.target).text().toLowerCase());
 			indexOfList = 0;
-			$(this).tab('show');
 		});
+
 		$(".tabs a").eq(currentday).trigger("click");
 
 		function fillListGroup() {
 			$(".itemData").remove();
+			// if the index is not in the list go back to first 
+			if (indexOfList > currentdayClasses.length) {
+				indexOfList = 0;
+			}
 			for (var i = 0; i < currentdayClasses.length; i++) {
 				var currentClass = currentdayClasses[i];
 				if (i === indexOfList) {
@@ -88,7 +97,7 @@ $(document).ready(
 			var residentName = $("#residentChosen").text();
 			var exportWindow = window.open("export.html", "Export", '');
 			exportWindow.onload = function () {
-				exportWindow.document.getElementById('header').innerHTML = residentName + "'s Schedule";
+				exportWindow.document.getElementById('header').innerHTML = residentName;
 				exportWindow.document.getElementById('schedule').innerHTML = table;
 			};
 		});
@@ -100,6 +109,6 @@ function getClassesForThisDay(day) {
 		if (knownClasses[i].day.toLowerCase() === currentdayname) {
 			currentdayClasses.push(knownClasses[i]);
 		}
-
 	}
 }
+
