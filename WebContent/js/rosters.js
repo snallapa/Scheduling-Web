@@ -7,6 +7,7 @@ var LOCAL_STORAGE_STRING = "list_item_place";
 var LOCAL_STORAGE_DATE = "day";
 var currentday;
 var currentdayClasses = [];
+var QUERY_LIMIT = 1000;//max query limit for parse
 $(document).ready(
 	function () {
 		var indexOfList = parseInt(localStorage.getItem(LOCAL_STORAGE_STRING));
@@ -84,7 +85,7 @@ $(document).ready(
 				$("tbody tr").last().append('<td class="names">' + residentsInClass[i] + '</td><td class="clearable"></td>');
 			}
 		}
-		getClasses(fillListGroup);
+		getClasses(fillListGroup, QUERY_LIMIT);
 		$(".signOutForm").submit(function () {
 			Parse.User.logOut();
 			window.location = "index.html";

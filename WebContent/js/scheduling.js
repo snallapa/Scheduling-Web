@@ -5,6 +5,7 @@ var residents = [];
 var LOCAL_STORAGE_STRING = "list_item_place";
 var LIST_THRESHOLD_VALUE = 8;
 var indexOfList;
+var QUERY_LIMIT = 1000;//max query limit for parse
 $(document).ready(
 	function () {
 		$(".alert").hide();
@@ -17,6 +18,7 @@ $(document).ready(
 		function getResidents() {
 			var query = new Parse.Query(Residents);
 			query.ascending("name");
+			query.limit(QUERY_LIMIT);
 			query.find({
 				success: function (results) {
 					for (var i = 0; i < results.length; i++) {
@@ -287,7 +289,7 @@ $(document).ready(
 		$('table td').on('change', function (evt, newValue) {
 			var tableRows = $("#schedule").find('tbody').find('tr');
 			createSchedule(tableRows);
-			getClasses(null);
+			getClasses(null, 20);
 		});
 		$(".exportSchedule").click(function () {
 			var tableElement = $("#schedule").clone();
@@ -301,13 +303,6 @@ $(document).ready(
 			};
 		});
 		$('#search').hideseek();
-		
-
-		window.setInterval(function () {
-			/// call your function here
-		}, 5000);
-
-
 	});
 
 
@@ -634,21 +629,4 @@ function createSchedule(tableRows) {
 	var currentResident = residents[index];
 	currentResident.set("schedule", schedule);
 	currentResident.save();
-	/** 
-	var residentName = $("#residentChosen").text();
-	var query = new Parse.Query(Residents);
-	query.equalTo("name", residentName);
-	query.first({
-		success: function (result) {
-			result.set("schedule", schedule);
-			result.save();
-			$(".savedSchedule").slideDown().delay(2000)
-				.slideUp();
-		},
-		error: function (object, error) {
-			$(".scheduleNotSaved").slideDown().delay(2000)
-				.slideUp();
-		}
-	});
-* */
 }

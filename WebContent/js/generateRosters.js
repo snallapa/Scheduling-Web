@@ -5,8 +5,7 @@ var classRosterFromServers = [];
 var residents = [];
 var indexesinQueue = [];
 var classNames = [];
-
-function getClasses(fillListGroup) {
+function getClasses(fillListGroup, query_limit) {
 		var queryClasses = new Parse.Query(ClassRosters);
 		queryClasses.find({
 			success: function (results) {
@@ -21,6 +20,8 @@ function getClasses(fillListGroup) {
 					classRosterFromServers[i] = results[i];
 				}
 				var query = new Parse.Query(Residents);
+				query.descending("createdAt").limit(query_limit);
+
 				query.find({
 					success: function (results) {
 						for (var i = 0; i < results.length; i++) {
